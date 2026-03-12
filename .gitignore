@@ -3,3 +3,6 @@
 /server/node_modules
 /cli/node_modules
 /app/node/package
+/app/node/js
+/web/serverOut
+/cli/dist
