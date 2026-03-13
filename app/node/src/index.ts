@@ -1,4 +1,5 @@
 import { deferred } from "@thetally/toolbox";
+import { create } from "node:domain";
 import { WebSocket } from "ws";
 
 let ws: WebSocket | null = null;
@@ -12,6 +13,38 @@ enum State {
   Ready,
   Connected,
   Streaming,
+}
+
+let VmicCreated = false;
+let VmicId = "";
+
+const vmicMap = {
+  linux: () => import("./Vmic/linux"),
+  win32: () => import("./Vmic/win32"),
+  // "darwin" // macos is EVIL !!!! (also i dont have a mac to test on (also i hate macos (also i hate apple (also macs can eat shit lmao (also i should stop doing this (also its funny (also (also (also macos is bad (also i will die on this hill (also meow)))))))))))
+} as const;
+
+const supportedPlatforms = new Set([
+  ...Object.keys(vmicMap),
+] as NodeJS.Process["platform"][]);
+
+if (!supportedPlatforms.has(process.platform)) {
+  console.error("Unsupported platform");
+  process.exit(1);
+}
+
+const vmicModule = await vmicMap[process.platform as keyof typeof vmicMap]();
+
+await vmicModule.ensureDependencies();
+
+async function createVmic() {
+  const { createVmic } = vmicModule;
+
+  createVmic();
+}
+
+async function RemoveVmic() {
+  if (!VmicCreated) return;
 }
 
 let state = State.Disconnected;
@@ -111,15 +144,13 @@ process.stdin.on("data", (chunk) => {
       }
       break;
 
-    case "exit":
-      {
-        process.exit();
-      }
+    case "exit": {
+      process.exit();
+    }
   }
 
   if (chunk === "\u0003") process.exit();
 });
 
-
-// connect::6LVA3D
+// connect::OOSAEM
 // accept
