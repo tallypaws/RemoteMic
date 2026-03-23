@@ -6,11 +6,12 @@
   "description": "",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "package": "pkg ./js/index.js --output ./package/nodesidecar",
+    "package": "pkg ./js/index.js --output ./package/remotemic-node",
     "start": "node ./js/index.js",
     "watch": "tsc --watch --project tsconfig.json",
     "serve": "nodemon ./js/index.js",
-    "clean": "rm -rf ./js ./package"
+    "clean": "rm -rf ./js ./package",
+    "rename": "node rename.js"
   },
   "devDependencies": {
     "@types/node": "^25.4.0",

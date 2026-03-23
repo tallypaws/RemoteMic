@@ -1,0 +1,112 @@
+[2026-03-14T18:35:14.015Z] # === sidecar started ===
+[2026-03-14T18:35:14.015Z] [console.log] # lines starting in '#' are comments, everything else is structured data
+[2026-03-14T18:35:14.015Z] [stdout] # lines starting in '#' are comments, everything else is structured data
+
+[2026-03-14T18:35:14.016Z] [console.log] # platform: linux
+[2026-03-14T18:35:14.016Z] [stdout] # platform: linux
+
+[2026-03-14T18:35:14.016Z] [console.log] ### 1
+[2026-03-14T18:35:14.016Z] [stdout] ### 1
+
+[2026-03-14T18:35:14.016Z] [console.log] ### 2
+[2026-03-14T18:35:14.016Z] [stdout] ### 2
+
+[2026-03-14T18:35:14.023Z] [stderr] 
+[2026-03-14T18:35:14.024Z] [console.log] ### 3
+[2026-03-14T18:35:14.024Z] [stdout] ### 3
+
+[2026-03-14T18:35:14.024Z] [console.log] state::0
+[2026-03-14T18:35:14.024Z] [stdout] state::0
+
+[2026-03-14T18:35:14.024Z] [console.log] ### 4
+[2026-03-14T18:35:14.024Z] [stdout] ### 4
+
+[2026-03-14T18:35:14.025Z] [console.log] ### 5
+[2026-03-14T18:35:14.025Z] [stdout] ### 5
+
+[2026-03-14T18:35:14.025Z] [console.log] # false undefined
+[2026-03-14T18:35:14.025Z] [stdout] # false undefined
+
+[2026-03-14T18:35:14.025Z] [console.log] ### 6
+[2026-03-14T18:35:14.025Z] [stdout] ### 6
+
+[2026-03-14T18:35:14.026Z] [console.log] ### 7
+[2026-03-14T18:35:14.026Z] [stdout] ### 7
+
+[2026-03-14T18:35:44.795Z] [console.log] ### command joe buffer joe
+ parts [
+  "joe"
+]
+[2026-03-14T18:35:44.795Z] [stdout] ### command joe buffer joe
+ parts [ 'joe' ]
+
+[2026-03-14T18:35:48.940Z] [console.log] ### command yepi buffer yepi
+ parts [
+  "yepi"
+]
+[2026-03-14T18:35:48.940Z] [stdout] ### command yepi buffer yepi
+ parts [ 'yepi' ]
+
+[2026-03-14T18:35:53.829Z] [console.log] ### command connect buffer connect::64SIR8
+ parts [
+  "connect",
+  "64SIR8"
+]
+[2026-03-14T18:35:53.829Z] [stdout] ### command connect buffer connect::64SIR8
+ parts [ 'connect', '64SIR8' ]
+
+[2026-03-14T18:35:53.829Z] [console.log] state::1
+[2026-03-14T18:35:53.829Z] [stdout] state::1
+
+[2026-03-14T18:35:53.842Z] [console.log] state::2
+[2026-03-14T18:35:53.842Z] [stdout] state::2
+
+[2026-03-14T18:40:42.579Z] [console.log] ### command d buffer d
+ parts [
+  "d"
+]
+[2026-03-14T18:40:42.579Z] [stdout] ### command d buffer d
+ parts [ 'd' ]
+
+[2026-03-14T18:40:43.237Z] [console.log] ### command  buffer 
+ parts [
+  ""
+]
+[2026-03-14T18:40:43.238Z] [stdout] ### command  buffer 
+ parts [ '' ]
+
+[2026-03-14T18:40:44.007Z] [console.log] ### command  buffer 
+ parts [
+  ""
+]
+[2026-03-14T18:40:44.007Z] [stdout] ### command  buffer 
+ parts [ '' ]
+
+[2026-03-14T18:40:44.695Z] [console.log] ### command  buffer 
+ parts [
+  ""
+]
+[2026-03-14T18:40:44.695Z] [stdout] ### command  buffer 
+ parts [ '' ]
+
+[2026-03-14T18:40:52.219Z] [console.log] ### command d buffer d
+ parts [
+  "d"
+]
+[2026-03-14T18:40:52.219Z] [stdout] ### command d buffer d
+ parts [ 'd' ]
+
+[2026-03-14T18:40:53.043Z] [console.log] ### command  buffer 
+ parts [
+  ""
+]
+[2026-03-14T18:40:53.043Z] [stdout] ### command  buffer 
+ parts [ '' ]
+
+[2026-03-14T18:40:53.659Z] [console.log] ### command  buffer 
+ parts [
+  ""
+]
+[2026-03-14T18:40:53.660Z] [stdout] ### command  buffer 
+ parts [ '' ]
+

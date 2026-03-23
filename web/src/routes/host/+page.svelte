@@ -21,8 +21,16 @@
 
 	let micHistory: number[] = [];
 
-	function Enum<T extends string>(...args: T[]): Record<T, number> {
-		return Object.fromEntries(args.map((arg, i) => [arg as T, i])) as Record<T, number>;
+	type flat<t> = { [k in keyof t]: t[k] } & {};
+
+	type EnumFromArgs<T extends string[]> = {
+		[K in keyof T as T[K] extends string
+			? T[K]
+			: never]: K extends `${infer N extends number}` ? N : never;
+	};
+
+	function Enum<T extends string[]>(...args: T): flat<EnumFromArgs<T>> {
+		return Object.fromEntries(args.map((arg, i) => [arg, i])) as flat<EnumFromArgs<T>>;
 	}
 
 	const steps = Enum('connecting', 'waitingforclient', 'confirmation', 'streaming');

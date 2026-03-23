@@ -1,0 +1,53 @@
+[2026-03-21T02:41:58.105Z] # === sidecar started ===
+[2026-03-21T02:41:58.105Z] [console.log] # lines starting in '#' are comments, everything else is structured data
+[2026-03-21T02:41:58.105Z] [stdout] # lines starting in '#' are comments, everything else is structured data
+
+[2026-03-21T02:41:58.106Z] [console.log] # platform: linux
+[2026-03-21T02:41:58.106Z] [stdout] # platform: linux
+
+[2026-03-21T02:41:58.106Z] [console.log] ### 1
+[2026-03-21T02:41:58.106Z] [stdout] ### 1
+
+[2026-03-21T02:41:58.106Z] [console.log] ### 2
+[2026-03-21T02:41:58.106Z] [stdout] ### 2
+
+[2026-03-21T02:41:58.112Z] [stderr] 
+[2026-03-21T02:41:58.113Z] [console.log] ### 3
+[2026-03-21T02:41:58.113Z] [stdout] ### 3
+
+[2026-03-21T02:41:58.113Z] [console.log] {"type":"state","data":0}
+[2026-03-21T02:41:58.113Z] [stdout] {"type":"state","data":0}
+
+[2026-03-21T02:41:58.113Z] [console.log] ### 4
+[2026-03-21T02:41:58.113Z] [stdout] ### 4
+
+[2026-03-21T02:41:58.114Z] [console.log] ### 5
+[2026-03-21T02:41:58.114Z] [stdout] ### 5
+
+[2026-03-21T02:41:58.115Z] [console.log] # true function(flag) {
+  flag = !!flag;
+  const err = this._handle?.setRawMode(flag);
+  if (err) {
+    this.emit('error', new ErrnoException(err, 'setRawMode'));
+    return this;
+  }
+  this.isRaw = flag;
+  return this;
+}
+[2026-03-21T02:41:58.115Z] [stdout] # true function(flag) {
+  flag = !!flag;
+  const err = this._handle?.setRawMode(flag);
+  if (err) {
+    this.emit('error', new ErrnoException(err, 'setRawMode'));
+    return this;
+  }
+  this.isRaw = flag;
+  return this;
+}
+
+[2026-03-21T02:41:58.115Z] [console.log] ### 6
+[2026-03-21T02:41:58.115Z] [stdout] ### 6
+
+[2026-03-21T02:41:58.115Z] [console.log] ### 7
+[2026-03-21T02:41:58.116Z] [stdout] ### 7
+
