@@ -5,6 +5,12 @@ interface LineEntry {
   text: string;
 }
 
+type LineController = ((text: string) => void) & {
+  remove(): void;
+  insertAbove(text: string): LineController;
+  insertBelow(text: string): LineController;
+};
+
 export class TerminalController {
   private lines: LineEntry[] = [];
   private rendered: Map<string, string> = new Map();
@@ -12,6 +18,16 @@ export class TerminalController {
 
   constructor() {
     process.stdout.write("\x1b[?25l");
+
+    const cleanup = () => {
+      this.destroy();
+    };
+
+    process.on("exit", cleanup);
+    process.on("SIGINT", () => {
+      cleanup();
+      process.exit();
+    });
   }
 
   private moveCursor(row: number) {
@@ -45,27 +61,7 @@ export class TerminalController {
     }
   }
 
-  line(text = ""): ((newText: string) => void) & {
-    remove: () => void;
-    insertAbove: (text: string) => ((newText: string) => void) & {
-      remove: () => void;
-      insertAbove: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-      insertBelow: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-    };
-    insertBelow: (text: string) => ((newText: string) => void) & {
-      remove: () => void;
-      insertAbove: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-      insertBelow: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-    };
-  } {
+  line(text = ""): LineController {
     const id = randomUUID();
     const entry = { id, text };
     this.lines.push(entry);
@@ -74,27 +70,7 @@ export class TerminalController {
     return this.createLineManager(id);
   }
 
-  private createLineManager(lineId: string): ((newText: string) => void) & {
-    remove: () => void;
-    insertAbove: (text: string) => ((newText: string) => void) & {
-      remove: () => void;
-      insertAbove: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-      insertBelow: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-    };
-    insertBelow: (text: string) => ((newText: string) => void) & {
-      remove: () => void;
-      insertAbove: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-      insertBelow: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-    };
-  } {
+  private createLineManager(lineId: string): LineController {
     const _edit = (newText: string) => {
       const entry = this.lines.find((l) => l.id === lineId);
       if (entry) {
@@ -111,9 +87,9 @@ export class TerminalController {
       this.rendered.delete(entry.id);
 
       this.moveCursor(this.lines.length);
-      this.clearLine();
+      process.stdout.write("\x1b[J");
 
-      this.render();
+      this.scheduleRender();
     };
 
     _edit.insertAbove = (text: string) => {
@@ -122,7 +98,7 @@ export class TerminalController {
 
       const newEntry = { id: randomUUID(), text };
       this.lines.splice(index, 0, newEntry);
-      this.render();
+      this.scheduleRender();
       return this.createLineManager(newEntry.id);
     };
 
@@ -132,19 +108,11 @@ export class TerminalController {
 
       const newEntry = { id: randomUUID(), text };
       this.lines.splice(index + 1, 0, newEntry);
-      this.render();
+      this.scheduleRender();
       return this.createLineManager(newEntry.id);
     };
 
-    return _edit as ((newText: string) => void) & {
-      remove: () => void;
-      insertAbove: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-      insertBelow: (
-        text: string,
-      ) => ReturnType<TerminalController["createLineManager"]>;
-    };
+    return _edit as LineController;
   }
 
   edit(id: string, text: string) {
@@ -164,7 +132,7 @@ export class TerminalController {
     this.moveCursor(this.lines.length);
     this.clearLine();
 
-    this.render();
+    this.scheduleRender();
   }
 
   clear() {
@@ -176,6 +144,18 @@ export class TerminalController {
   render() {
     process.stdout.write("\x1b[H");
     this.renderAll();
+  }
+
+  private pending = false;
+
+  private scheduleRender() {
+    if (this.pending) return;
+    this.pending = true;
+
+    setImmediate(() => {
+      this.pending = false;
+      this.render();
+    });
   }
 
   destroy() {
