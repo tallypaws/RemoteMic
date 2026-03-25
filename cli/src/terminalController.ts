@@ -13,10 +13,12 @@ type LineController = ((text: string) => void) & {
 
 export class TerminalController {
   private lines: LineEntry[] = [];
-  private rendered: Map<string, string> = new Map();
+  private rendered: Map<number, string> = new Map();
+  private numberOfLinesRendered = 0;
   private destroyed = false;
 
   constructor() {
+    console.clear();
     process.stdout.write("\x1b[?25l");
 
     const cleanup = () => {
@@ -34,7 +36,10 @@ export class TerminalController {
     process.stdout.write(`\x1b[${row + 1};1H`);
   }
 
-  private clearLine() {
+  private clearLine(index?: number) {
+    if (index) {
+      this.moveCursor(index);
+    }
     process.stdout.write("\x1b[2K");
   }
 
@@ -46,26 +51,32 @@ export class TerminalController {
 
     const text = lineEntry.text;
 
-    if (this.rendered.get(lineEntry.id) === text) return;
+    if (this.rendered.get(index) === text) return;
 
     this.moveCursor(index);
     this.clearLine();
     process.stdout.write(text);
 
-    this.rendered.set(lineEntry.id, text);
+    this.rendered.set(index, text);
   }
 
   private renderAll() {
     for (let i = 0; i < this.lines.length; i++) {
       this.renderLine(i);
     }
+    if (this.lines.length < this.numberOfLinesRendered) {
+      for (let i = this.lines.length; i < this.numberOfLinesRendered; i++) {
+        this.clearLine(i);
+      }
+    }
+    this.numberOfLinesRendered = this.lines.length;
   }
 
   line(text = ""): LineController {
     const id = randomUUID();
     const entry = { id, text };
     this.lines.push(entry);
-    this.renderLine(this.lines.length - 1);
+    this.scheduleRender();
 
     return this.createLineManager(id);
   }
@@ -84,7 +95,6 @@ export class TerminalController {
       if (index < 0) return;
 
       const entry = this.lines.splice(index, 1)[0];
-      this.rendered.delete(entry.id);
 
       this.moveCursor(this.lines.length);
       process.stdout.write("\x1b[J");
@@ -128,7 +138,6 @@ export class TerminalController {
     if (index < 0) return;
 
     const entry = this.lines.splice(index, 1)[0];
-    this.rendered.delete(entry.id);
     this.moveCursor(this.lines.length);
     this.clearLine();
 
